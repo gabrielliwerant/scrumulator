@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createUseStyles } from 'react-jss';
 import { reduce as _reduce } from 'lodash';
 
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -10,6 +11,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+
+import ArrowLeft from '@mui/icons-material/ArrowLeft';
 
 const useStyles = createUseStyles({
   '@global': {
@@ -32,6 +35,10 @@ const useStyles = createUseStyles({
   },
   current: {
     marginTop: '16px'
+  },
+  loadingText: {
+    textTransform: 'lowercase',
+    marginRight: '8px'
   }
 });
 
@@ -49,21 +56,38 @@ const App = () => {
   const classes = useStyles();
   const [participants, setParticipants] = useState(PARTICIPANTS);
   const [current, setCurrent] = useState('');
+  const [isScrumulating, setIsScrumulating] = useState(false);
+  const [ticker, setTicker] = useState(0);
   const [plural, setPlural] = useState(PARTICIPANTS.length ? 's' : '');
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (ticker >= participants.length) setTicker(0);
+      else setTicker(ticker + 1);
+    }, 50);
+
+    return () => clearInterval(intervalId);
+  });
 
   const scrumuluate = () => {
     if (!participants.length) return false;
 
+    setIsScrumulating(true);
+
     const index = Math.floor(Math.random() * participants.length);
+    const remainingParticipants = _reduce(participants, (acc, cur) => {
+      if (cur !== participants[index]) return [ ...acc, cur ];
+      return [ ...acc ];
+    }, []);
 
     // KLUDGE: With two remaining, one will remain after reduce
     if (participants.length === 2) setPlural('');
 
-    setCurrent(participants[index]);
-    setParticipants(_reduce(participants, (acc, cur) => {
-      if (cur !== participants[index]) return [ ...acc, cur ];
-      return [ ...acc ];
-    }, []));
+    window.setTimeout(() => {
+      setCurrent(participants[index]);
+      setParticipants(remainingParticipants);
+      setIsScrumulating(false);
+    }, 2500);
   };
 
   return (
@@ -77,16 +101,28 @@ const App = () => {
       <div className={classes.listContainer}>
         <Paper elevation={4}>
           <List>
-            <ListItem key='remaining' classNames={classes.singleGrid}>
+            <ListItem key='remaining' className={classes.singleGrid}>
               <ListItemText primary={`Remaining Participant${plural}:`} />
               <Button variant='contained' onClick={scrumuluate}>
-                Scrumulate!
+                {isScrumulating && (
+                  <>
+                    <span className={classes.loadingText}>
+                      scrumulating...
+                    </span>
+                    <CircularProgress size={20} sx={{ color: 'white' }} />
+                  </>
+                )}
+                {!isScrumulating && <>Scrumulate!</>}
               </Button>
             </ListItem>
             {!!participants.length && <Divider />}
-            {participants.map(p => (
-              <ListItemButton key={p}>
+            {participants.map((p, i) => (
+              <ListItemButton
+                key={p}
+                selected={ticker === i && isScrumulating}
+              >
                 <ListItemText primary={p} />
+                {ticker === i && isScrumulating && <ArrowLeft />}
               </ListItemButton>
             ))}
           </List>
@@ -99,9 +135,9 @@ const App = () => {
             {!!current && (
               <>
                 <Divider />
-                <ListItem key={current}>
+                <ListItemButton key={current}>
                   <ListItemText primary={current} />
-                </ListItem>
+                </ListItemButton>
               </>
             )}
           </List>
