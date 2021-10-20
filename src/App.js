@@ -56,6 +56,7 @@ const App = () => {
 
     const index = Math.floor(Math.random() * participants.length);
 
+    // KLUDGE: With two remaining, one will remain after reduce
     if (participants.length === 2) setPlural('');
 
     setCurrent(participants[index]);
