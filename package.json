@@ -1,0 +1,24 @@
+{
+  "name": "scrumulator",
+  "version": "0.1.0",
+  "description": "Manage your scrums!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielliwerant/scrumulator.git"
+  },
+  "keywords": [
+    "scrum",
+    "random",
+    "standup"
+  ],
+  "author": "Gabriel Liwerant",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gabrielliwerant/scrumulator/issues"
+  },
+  "homepage": "https://github.com/gabrielliwerant/scrumulator#readme"
+}
