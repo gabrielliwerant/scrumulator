@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createUseStyles } from 'react-jss';
 
+import { StyledEngineProvider } from '@mui/material/styles';
 import List from '@mui/material/List';
 import Paper from '@mui/material/Paper';
 
@@ -43,21 +44,30 @@ const App = () => {
   const [isScrumulating, setIsScrumulating] = useState(false);
   const [ticker, setTicker] = useState(0);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (ticker >= participants.length) setTicker(0);
-      else setTicker(ticker + 1);
-    }, 50);
+  const setParticipant = (newParticipant, index) => {
+    const newParticipants = participants.map((oldParticipant, i) => {
+      if (i === index) return newParticipant;
+      return oldParticipant;
+    });
 
-    return () => clearInterval(intervalId);
+    setParticipants(newParticipants);
+  };
+
+  useEffect(() => {
+    // const intervalId = setInterval(() => {
+    //   if (ticker >= participants.length) setTicker(0);
+    //   else setTicker(ticker + 1);
+    // }, 50);
+    //
+    // return () => clearInterval(intervalId);
   });
 
   return (
-    <div>
+    <StyledEngineProvider injectFirst>
       <Title />
       <div className={classes.participantsContainer}>
         <Paper elevation={4}>
-          <List>
+          <List component='nav'>
             <RemainingParticipantHeader
               participants={participants}
               setParticipants={setParticipants}
@@ -69,6 +79,7 @@ const App = () => {
               <Participant
                 key={participant}
                 participant={participant}
+                setParticipant={setParticipant}
                 ticker={ticker}
                 index={i}
                 isScrumulating={isScrumulating}
@@ -83,7 +94,7 @@ const App = () => {
           </List>
         </Paper>
       </div>
-    </div>
+    </StyledEngineProvider>
   );
 };
 
