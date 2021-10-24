@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { getCurrentName } from '../redux/selectors';
 
-import ListItemButton from '@mui/material/ListItemButton';
+import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 
 const CurrentParticipant = props => {
@@ -13,9 +13,9 @@ const CurrentParticipant = props => {
   return (
     <>
       {!!name && (
-        <ListItemButton key={name}>
+        <ListItem key={name}>
           <ListItemText primary={name} />
-        </ListItemButton>
+        </ListItem>
       )}
     </>
   );
