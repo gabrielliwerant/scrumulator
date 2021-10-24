@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createUseStyles } from 'react-jss';
 
-import { getOrdering } from './selectors';
+import { getOrdering } from '../redux/selectors';
 
 import { StyledEngineProvider } from '@mui/material/styles';
 import List from '@mui/material/List';

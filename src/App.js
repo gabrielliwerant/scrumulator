@@ -1,9 +1,9 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { store } from './config';
+import { store } from './redux/config';
 
-import Main from './Main';
+import Main from './components/Main';
 
 const App = () => (
   <Provider store={store}>

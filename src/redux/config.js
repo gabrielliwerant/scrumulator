@@ -12,7 +12,7 @@ import {
   currentSlice,
   statusSlice
 } from './reducers';
-import { LOCAL_STORAGE_KEY } from './constants';
+import { LOCAL_STORAGE_KEY } from '../constants';
 
 /**
  * Store todo data in local storage after latest state reduce.

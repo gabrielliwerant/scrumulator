@@ -8,8 +8,12 @@ import {
   orderingSlice,
   currentSlice,
   statusSlice
-} from './reducers';
-import { getParticipants, getOrdering, getIsScrumulating } from './selectors';
+} from '../redux/reducers';
+import {
+  getParticipants,
+  getOrdering,
+  getIsScrumulating
+} from '../redux/selectors';
 
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';

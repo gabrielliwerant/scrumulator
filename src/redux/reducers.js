@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { LOCAL_STORAGE_KEY } from './constants';
+import { LOCAL_STORAGE_KEY } from '../constants';
 
 /**
  * Create new participants

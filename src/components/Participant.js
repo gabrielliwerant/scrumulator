@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createUseStyles } from 'react-jss';
 
-import { participantsSlice } from './reducers';
+import { participantsSlice } from '../redux/reducers';
 import {
   getParticipantName,
   getParticipantDraft,
   getIsEditActive,
   getIsScrumulating
-} from './selectors';
+} from '../redux/selectors';
 
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';

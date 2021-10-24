@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getCurrent } from './selectors';
+import { getCurrent } from '../redux/selectors';
 
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
