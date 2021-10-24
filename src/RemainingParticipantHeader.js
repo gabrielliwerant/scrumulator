@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { createUseStyles } from 'react-jss';
-import { reduce as _reduce } from 'lodash';
+
+import {
+  participantsSlice,
+  orderingSlice,
+  currentSlice,
+  statusSlice
+} from './reducers';
+import { getParticipants, getOrdering, getIsScrumulating } from './selectors';
 
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
@@ -15,41 +23,28 @@ const useStyles = createUseStyles({
     justifyContent: 'space-between'
   },
   loadingText: {
-    textTransform: 'lowercase',
     marginRight: '8px'
   }
 });
 
 const RemainingParticipantHeader = props => {
-  const {
-    participants,
-    setParticipants,
-    setCurrent,
-    isScrumulating,
-    setIsScrumulating
-  } = props;
+  const { ordering, isScrumulating, remove, setCurrent, setOff, setOn } = props;
   const classes = useStyles();
-
-  const [plural, setPlural] = useState(participants.length ? 's' : '');
+  const [plural, setPlural] = useState(ordering.length ? 's' : '');
 
   const scrumuluate = () => {
-    if (!participants.length) return false;
+    if (!ordering.length) return false;
 
-    setIsScrumulating(true);
-
-    const index = Math.floor(Math.random() * participants.length);
-    const remainingParticipants = _reduce(participants, (acc, cur) => {
-      if (cur !== participants[index]) return [ ...acc, cur ];
-      return [ ...acc ];
-    }, []);
+    setOn();
+    const index = Math.floor(Math.random() * ordering.length);
 
     window.setTimeout(() => {
-      setCurrent(participants[index]);
-      setParticipants(remainingParticipants);
-      setIsScrumulating(false);
+      setCurrent(ordering[index]);
+      remove(ordering[index]);
+      setOff();
 
       // KLUDGE: With two remaining, one will remain after reduce
-      if (participants.length === 2) setPlural('');
+      if (ordering.length === 2) setPlural('');
     }, 1500);
   };
 
@@ -60,12 +55,12 @@ const RemainingParticipantHeader = props => {
         <Button
           variant='contained'
           onClick={scrumuluate}
-          disabled={!participants.length}
+          disabled={!ordering.length}
         >
           {isScrumulating && (
             <>
               <span className={classes.loadingText}>
-                scrumulating...
+                Scrumulating...
               </span>
               <CircularProgress size={20} sx={{ color: 'white' }} />
             </>
@@ -73,17 +68,35 @@ const RemainingParticipantHeader = props => {
           {!isScrumulating && <>Scrumulate!</>}
         </Button>
       </ListItem>
-      {!!participants.length && <Divider />}
+      {!!ordering.length && <Divider />}
     </>
   );
 };
 
 RemainingParticipantHeader.propTypes = {
-  participants: PropTypes.arrayOf(PropTypes.string).isRequired,
-  setParticipants: PropTypes.func.isRequired,
-  setCurrent: PropTypes.func.isRequired,
+  participants: PropTypes.object.isRequired,
+  ordering: PropTypes.arrayOf(PropTypes.number).isRequired,
   isScrumulating: PropTypes.bool.isRequired,
-  setIsScrumulating: PropTypes.func.isRequired
+  remove: PropTypes.func.isRequired,
+  setCurrent: PropTypes.func.isRequired,
+  setOff: PropTypes.func.isRequired,
+  setOn: PropTypes.func.isRequired
 };
 
-export default RemainingParticipantHeader;
+const mapStateToProps = () => ({
+  participants: getParticipants(),
+  ordering: getOrdering(),
+  isScrumulating: getIsScrumulating()
+});
+
+const mapDispatchToProps = dispatch => ({
+  remove: id => {
+    dispatch(participantsSlice.actions.remove({ id }));
+    dispatch(orderingSlice.actions.remove({ id }));
+  },
+  setCurrent: id => dispatch(currentSlice.actions.set({ id })),
+  setOff: () => dispatch(statusSlice.actions.setOff()),
+  setOn: () => dispatch(statusSlice.actions.setOn())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RemainingParticipantHeader);

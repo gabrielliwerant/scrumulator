@@ -1,17 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import { getCurrentName } from './selectors';
 
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 
 const CurrentParticipant = props => {
-  const { currentParticipant } = props;
+  const { name } = props;
 
   return (
     <>
-      {!!currentParticipant && (
-        <ListItemButton key={currentParticipant}>
-          <ListItemText primary={currentParticipant} />
+      {!!name && (
+        <ListItemButton key={name}>
+          <ListItemText primary={name} />
         </ListItemButton>
       )}
     </>
@@ -19,7 +22,11 @@ const CurrentParticipant = props => {
 };
 
 CurrentParticipant.propTypes = {
-  currentParticipant: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired
 };
 
-export default CurrentParticipant;
+const mapStateToProps = () => ({
+  name: getCurrentName()
+});
+
+export default connect(mapStateToProps)(CurrentParticipant);

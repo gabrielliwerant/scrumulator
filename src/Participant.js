@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { createUseStyles } from 'react-jss';
+
+import { participantsSlice } from './reducers';
+import {
+  getParticipantName,
+  getParticipantDraft,
+  getIsEditActive,
+  getIsScrumulating
+} from './selectors';
 
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import TextField from '@mui/material/TextField';
-
 import ArrowLeft from '@mui/icons-material/ArrowLeft';
 
 const useStyles = createUseStyles({
@@ -25,45 +33,64 @@ const useStyles = createUseStyles({
 
 const Participant = props => {
   const {
-    participant,
-    setParticipant,
+    id,
     index,
     ticker,
-    isScrumulating
+    name,
+    draft,
+    isEditActive,
+    isScrumulating,
+    edit,
+    change
   } = props;
   const classes = useStyles();
-  const [isInEditMode, setIsInEditMode] = useState(false);
 
-  const onClickParticipant = () => setIsInEditMode(true);
-  const onChangePartipant = e => setParticipant(e.target.value, index);
+  const onClickParticipant = () => edit(id);
+  const onChangePartipant = e => change(id, e.target.value);
 
   return (
     <ListItemButton
       selected={ticker === index && isScrumulating}
       onClick={onClickParticipant}
     >
-      {isInEditMode && (
+      {isEditActive && (
         <TextField
           className={classes.editField}
           size='small'
-          id={participant}
+          id={`${id}`}
           variant='outlined'
-          value={participant}
+          value={draft}
           onChange={onChangePartipant}
         />
       )}
-      {!isInEditMode && <ListItemText primary={participant} />}
+      {!isEditActive && <ListItemText primary={name} />}
       {ticker === index && isScrumulating && <ArrowLeft />}
     </ListItemButton>
   );
 };
 
 Participant.propTypes = {
-  participant: PropTypes.string.isRequired,
-  setParticipant: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
   ticker: PropTypes.number.isRequired,
-  isScrumulating: PropTypes.bool.isRequired
+  name: PropTypes.string.isRequired,
+  draft: PropTypes.string.isRequired,
+  isEditActive: PropTypes.bool.isRequired,
+  isScrumulating: PropTypes.bool.isRequired,
+  edit: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired
 };
 
-export default Participant;
+const mapStateToProps = (state, ownProps) => ({
+  name: getParticipantName(ownProps.id),
+  draft: getParticipantDraft(ownProps.id),
+  isEditActive: getIsEditActive(ownProps.id),
+  isScrumulating: getIsScrumulating()
+});
+
+const mapDispatchToProps = dispatch => ({
+  edit: id => dispatch(participantsSlice.actions.edit({ id })),
+  change: (id, text) => dispatch(participantsSlice.actions.change({ id, text }))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Participant);
