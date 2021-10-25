@@ -26,7 +26,7 @@ const caption = CAPTIONS[getRandomIndex(CAPTIONS)];
 const useStyles = createUseStyles({
   title: {
     textAlign: 'center',
-    marginBottom: '32px'
+    marginBottom: '48px'
   }
 });
 
