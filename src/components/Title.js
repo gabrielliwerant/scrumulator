@@ -1,3 +1,9 @@
+/**
+ * Title
+ *
+ * Title component for app.
+ */
+
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 

@@ -1,3 +1,9 @@
+/**
+ * PrimaryMenu
+ *
+ * Handles the main menu actions for the app.
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -22,11 +28,17 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Fab from '@mui/material/Fab';
 import Refresh from '@mui/icons-material/Refresh';
 
+const classNames = require('classnames');
+
 const useStyles = createUseStyles({
-  navContainer: {
-    display: 'flex',
+  container: {
     justifyContent: 'space-between',
-    marginBottom: '16px'
+    marginBottom: '16px',
+    paddingInlineStart: 0
+  },
+  menu: {
+    display: 'flex',
+    listStyle: 'none'
   },
   rightSeparator: {
     marginRight: '8px'
@@ -75,43 +87,55 @@ const PrimaryMenu = props => {
   };
 
   return (
-    <nav className={classes.navContainer}>
-      <Button
-        variant='contained'
-        onClick={scrumuluate}
-        disabled={!ordering.length}
-      >
-        {isScrumulating && (
-          <>
-            <span className={classes.rightSeparator}>
-              Scrumulating...
-            </span>
-            <CircularProgress size={20} sx={{ color: 'white' }} />
-          </>
-        )}
-        {!isScrumulating && <>Scrumulate!</>}
-      </Button>
+    <ul
+      className={classNames({
+        [classes.container]: true,
+        [classes.menu]: true
+      })}
+      role='menu'
+    >
+      <li role='menuitem'>
+        <Button
+          variant='contained'
+          onClick={scrumuluate}
+          disabled={!ordering.length}
+        >
+          {isScrumulating && (
+            <>
+              <span className={classes.rightSeparator}>
+                Scrumulating...
+              </span>
+              <CircularProgress size={20} sx={{ color: 'white' }} />
+            </>
+          )}
+          {!isScrumulating && <>Scrumulate!</>}
+        </Button>
+      </li>
 
-      <nav>
-        <Fab
-          color="primary"
-          aria-label="add"
-          size="small"
-          onClick={onClickAdd}
-          className={classes.rightSeparator}
-        >
-          <Add />
-        </Fab>
-        <Fab
-          color="primary"
-          aria-label="refresh"
-          size="small"
-          onClick={onClickRefresh}
-        >
-          <Refresh />
-        </Fab>
-      </nav>
-    </nav>
+      <ul role='menu' className={classes.menu}>
+        <li role='menuitem'>
+          <Fab
+            color="primary"
+            aria-label="add"
+            size="small"
+            onClick={onClickAdd}
+            className={classes.rightSeparator}
+          >
+            <Add />
+          </Fab>
+        </li>
+        <li role='menuitem'>
+          <Fab
+            color="primary"
+            aria-label="refresh"
+            size="small"
+            onClick={onClickRefresh}
+          >
+            <Refresh />
+          </Fab>
+        </li>
+      </ul>
+    </ul>
   );
 };
 

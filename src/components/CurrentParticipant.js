@@ -1,3 +1,9 @@
+/**
+ * CurrentParticipant
+ *
+ * Component for the display of the current participant list item.
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';

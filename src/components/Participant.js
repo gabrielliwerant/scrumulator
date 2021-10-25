@@ -1,3 +1,9 @@
+/**
+ * Participant
+ *
+ * Component for participant list items and associated options.
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';

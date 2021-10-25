@@ -1,3 +1,9 @@
+/**
+ * Main
+ *
+ * Component to handle the overall layout for the app.
+ */
+
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';

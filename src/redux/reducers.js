@@ -1,3 +1,9 @@
+/**
+ * reducers.js
+ *
+ * Creates reducer/state slices and related helper functions.
+ */
+
 import { createSlice } from '@reduxjs/toolkit';
 
 import { LOCAL_STORAGE_KEY } from '../constants';

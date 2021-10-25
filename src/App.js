@@ -1,3 +1,9 @@
+/**
+ * App
+ *
+ * Main entry point for react and redux store injection.
+ */
+
 import React from 'react';
 import { Provider } from 'react-redux';
 

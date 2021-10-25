@@ -1,3 +1,9 @@
+/**
+ * RemainingParticipantHeader
+ *
+ * Header section of the remaining participants list
+ */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
