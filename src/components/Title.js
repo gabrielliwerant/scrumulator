@@ -5,7 +5,7 @@ import { getRandomIndex } from '../utils';
 
 import Typography from '@mui/material/Typography';
 
-const CAPTION = [
+const CAPTIONS = [
   'Powered by the scrumulation engine',
   'Solving all your scrum problems since 2013',
   'Why roll dice when you can SCRUMULATE?',
@@ -13,9 +13,9 @@ const CAPTION = [
   'Happiness is a warm scrum',
   'I\'ll let you be in my scrum if I can be in yours',
   '8 out of 10 scrum teams use it',
-  '8 out of 10 scrum teams use it'
+  'Blame the algorithm'
 ];
-const caption = CAPTION[getRandomIndex(CAPTION)];
+const caption = CAPTIONS[getRandomIndex(CAPTIONS)];
 
 const useStyles = createUseStyles({
   title: {
