@@ -17,6 +17,7 @@ import Paper from '@mui/material/Paper';
 
 import CurrentParticipant from './CurrentParticipant';
 import CurrentParticipantHeader from './CurrentParticipantHeader';
+import Footer from './Footer';
 import Participant from './Participant';
 import PrimaryMenu from './PrimaryMenu';
 import RemainingParticipantHeader from './RemainingParticipantHeader';
@@ -72,6 +73,7 @@ const Main = props => {
           </List>
         </Paper>
       </div>
+      <Footer />
     </StyledEngineProvider>
   );
 };
