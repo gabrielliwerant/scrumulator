@@ -14,7 +14,10 @@ const CurrentParticipantHeader = props => {
   return (
     <>
       <ListItem key='current'>
-        <ListItemText primary='Current Participant:' />
+        <ListItemText
+          primary='Current Participant:'
+          primaryTypographyProps={{ fontWeight: 'bold' }}
+        />
       </ListItem>
       {!!id && <Divider />}
     </>

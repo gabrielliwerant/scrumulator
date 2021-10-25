@@ -25,6 +25,7 @@ const RemainingParticipantHeader = props => {
       <ListItem key='remaining' className={classes.singleGrid}>
         <ListItemText
           primary={`Remaining Participant${ordering.length > 1 ? 's' : ''}:`}
+          primaryTypographyProps={{ fontWeight: 'bold' }}
         />
       </ListItem>
       {!!ordering.length && <Divider />}
