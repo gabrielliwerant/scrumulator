@@ -8,6 +8,7 @@ import {
   getParticipantName,
   getParticipantDraft,
   getIsEditActive,
+  getCurrent,
   getIsScrumulating
 } from '../redux/selectors';
 
@@ -15,7 +16,6 @@ import IconButton from '@mui/material/IconButton';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import TextField from '@mui/material/TextField';
-import ArrowLeft from '@mui/icons-material/ArrowLeft';
 import Cancel from '@mui/icons-material/Cancel';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import Delete from '@mui/icons-material/Delete';
@@ -32,6 +32,14 @@ const useStyles = createUseStyles({
       paddingBottom: '6.5px',
       paddingTop: '6.5px'
     }
+  },
+  delete: {
+    visibility: 'hidden'
+  },
+  participant: {
+    '&:hover $delete': {
+      visibility: 'visible'
+    }
   }
 });
 
@@ -42,6 +50,7 @@ const Participant = props => {
     ticker,
     name,
     draft,
+    current,
     isEditActive,
     isScrumulating,
     edit,
@@ -72,10 +81,18 @@ const Participant = props => {
     removeParticipant(id);
   };
 
+  const getIsSelected = () => {
+    const isSelectedWhileScrumulating = ticker === index && isScrumulating;
+    const isSelectedWhileNotScrumulating = !isScrumulating && id === current;
+
+    return isSelectedWhileScrumulating || isSelectedWhileNotScrumulating;
+  };
+
   return (
     <ListItemButton
-      selected={ticker === index && isScrumulating}
+      selected={getIsSelected()}
       onClick={onClickParticipant}
+      className={classes.participant}
     >
       {isEditActive && (
         <>
@@ -102,12 +119,16 @@ const Participant = props => {
       {!isEditActive && (
         <>
           <ListItemText primary={name} />
-          <IconButton aria-label='cancel' size='small' onClick={onClickRemove}>
+          <IconButton
+            aria-label='cancel'
+            size='small'
+            onClick={onClickRemove}
+            className={classes.delete}
+          >
             <Delete fontSize='small' />
           </IconButton>
         </>
       )}
-      {ticker === index && isScrumulating && <ArrowLeft />}
     </ListItemButton>
   );
 };
@@ -118,6 +139,7 @@ Participant.propTypes = {
   ticker: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   draft: PropTypes.string.isRequired,
+  current: PropTypes.string.isRequired,
   isEditActive: PropTypes.bool.isRequired,
   isScrumulating: PropTypes.bool.isRequired,
   edit: PropTypes.func.isRequired,
@@ -131,6 +153,7 @@ Participant.propTypes = {
 const mapStateToProps = (state, ownProps) => ({
   name: getParticipantName(ownProps.id),
   draft: getParticipantDraft(ownProps.id),
+  current: getCurrent(),
   isEditActive: getIsEditActive(ownProps.id),
   isScrumulating: getIsScrumulating()
 });

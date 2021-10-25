@@ -15,7 +15,7 @@ const Title = () => {
 
   return (
     <div className={classes.title}>
-      <Typography variant="h3" component="h1">SCRUMULATOR</Typography>
+      <Typography variant="h2" component="h1">SCRUMULATOR</Typography>
       <Typography variant="caption">
         Powered by the scrumulation engine
       </Typography>

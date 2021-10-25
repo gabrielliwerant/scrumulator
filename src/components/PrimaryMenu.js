@@ -16,10 +16,10 @@ import {
 } from '../redux/selectors';
 import { makeId } from '../utils';
 
-import IconButton from '@mui/material/IconButton';
-import AddCircle from '@mui/icons-material/AddCircle';
+import Add from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+import Fab from '@mui/material/Fab';
 import Refresh from '@mui/icons-material/Refresh';
 
 const useStyles = createUseStyles({
@@ -28,7 +28,7 @@ const useStyles = createUseStyles({
     justifyContent: 'space-between',
     marginBottom: '16px'
   },
-  loadingText: {
+  rightSeparator: {
     marginRight: '8px'
   }
 });
@@ -40,7 +40,7 @@ const PrimaryMenu = props => {
     isScrumulating,
     addOrdering,
     refreshOrdering,
-    select,
+    remove,
     refreshCurrent,
     setCurrent,
     addParticipant,
@@ -66,8 +66,11 @@ const PrimaryMenu = props => {
 
     window.setTimeout(() => {
       setCurrent(ordering[index]);
-      select(ordering[index]);
       setOff();
+
+      window.setTimeout(() => {
+        remove(ordering[index]);
+      }, 500);
     }, 1500);
   };
 
@@ -80,7 +83,7 @@ const PrimaryMenu = props => {
       >
         {isScrumulating && (
           <>
-            <span className={classes.loadingText}>
+            <span className={classes.rightSeparator}>
               Scrumulating...
             </span>
             <CircularProgress size={20} sx={{ color: 'white' }} />
@@ -90,22 +93,23 @@ const PrimaryMenu = props => {
       </Button>
 
       <nav>
-        <IconButton
+        <Fab
+          color="primary"
           aria-label="add"
           size="small"
-          color="primary"
           onClick={onClickAdd}
+          className={classes.rightSeparator}
         >
-          <AddCircle fontSize="large" />
-        </IconButton>
-        <IconButton
-          aria-label="add"
-          size="small"
+          <Add />
+        </Fab>
+        <Fab
           color="primary"
+          aria-label="refresh"
+          size="small"
           onClick={onClickRefresh}
         >
-          <Refresh fontSize="large" />
-        </IconButton>
+          <Refresh />
+        </Fab>
       </nav>
     </nav>
   );
@@ -117,7 +121,7 @@ PrimaryMenu.propTypes = {
   isScrumulating: PropTypes.bool.isRequired,
   addOrdering: PropTypes.func.isRequired,
   refreshOrdering: PropTypes.func.isRequired,
-  select: PropTypes.func.isRequired,
+  remove: PropTypes.func.isRequired,
   refreshCurrent: PropTypes.func.isRequired,
   setCurrent: PropTypes.func.isRequired,
   addParticipant: PropTypes.func.isRequired,
@@ -134,7 +138,7 @@ const mapStateToProps = () => ({
 const mapDispatchToProps = dispatch => ({
   addOrdering: id => dispatch(orderingSlice.actions.add({ id })),
   refreshOrdering: participants => dispatch(orderingSlice.actions.refresh({ participants })),
-  select: id => dispatch(orderingSlice.actions.remove({ id })),
+  remove: id => dispatch(orderingSlice.actions.remove({ id })),
   refreshCurrent: () => dispatch(currentSlice.actions.refresh()),
   setCurrent: id => dispatch(currentSlice.actions.set({ id })),
   addParticipant: id => dispatch(participantsSlice.actions.add({ id })),
