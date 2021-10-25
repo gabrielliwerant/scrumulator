@@ -5,18 +5,25 @@ import { LOCAL_STORAGE_KEY } from '../constants';
 /**
  * Create new participants
  *
- * @param {string} final
+ * @param {string} name
  * @returns {object}
  */
 const makeNewParticipant = name => ({
   name,
   isEditActive: false,
-  isRemoved: false,
   edit: {
     draft: name,
     final: name
   }
 });
+
+/**
+ * Get new ordering from participant keys
+ *
+ * @param {object} participants
+ * @returns {array}
+ */
+const setOrdering = participants => Object.keys(participants);
 
 /**
  * Retrieve data from local storage or initial data structure.
@@ -28,7 +35,6 @@ const makeNewParticipant = name => ({
  *     id: {
  *       name: '',
  *       isEditActive: false,
- *       isRemoved: false,
  *       edit: {
  *         draft: '',
  *         final: ''
@@ -47,21 +53,18 @@ const makeNewParticipant = name => ({
 const getInitialState = () => {
   const local = window.localStorage.getItem(LOCAL_STORAGE_KEY);
   const initial = {
-    participants: {
-      1: makeNewParticipant('Gabriel'),
-      2: makeNewParticipant('Ada'),
-      3: makeNewParticipant('Antonio'),
-      4: makeNewParticipant('Amanda'),
-      5: makeNewParticipant('Bill'),
-      6: makeNewParticipant('Carl'),
-      7: makeNewParticipant('Ciacci')
-    },
-    ordering: [1, 2, 3, 4, 5, 6, 7],
-    current: null,
+    participants: {},
+    ordering: [],
+    current: '',
     status: { isScrumulating: false }
   };
 
-  //if (local) return JSON.parse(local);
+  if (local) {
+    const localJson = JSON.parse(local);
+    localJson.ordering = setOrdering(localJson.participants);
+    return localJson;
+  }
+
   return initial;
 };
 
@@ -73,7 +76,7 @@ const participantsSlice = createSlice({
   reducers: {
     add: (state, action) => {
       const id = action.payload.id;
-      state[id] = makeNewParticipant(id, '');
+      state[id] = makeNewParticipant('(New Participant)');
     },
     edit: (state, action) => {
       state[action.payload.id].isEditActive = true;
@@ -83,7 +86,9 @@ const participantsSlice = createSlice({
     },
     save: (state, action) => {
       state[action.payload.id].isEditActive = false;
+      state[action.payload.id].name = action.payload.text;
       state[action.payload.id].edit.final = action.payload.text;
+      state[action.payload.id].edit.draft = action.payload.text;
     },
     cancel: (state, action) => {
       const final = state[action.payload.id].edit.final;
@@ -91,7 +96,7 @@ const participantsSlice = createSlice({
       state[action.payload.id].edit.draft = final;
     },
     remove: (state, action) => {
-      state[action.payload.id].isRemoved = true;
+      delete state[action.payload.id];
     }
   }
 });
@@ -103,6 +108,7 @@ const orderingSlice = createSlice({
     add: (state, action) => {
       state.push(action.payload.id);
     },
+    refresh: (state, action) => setOrdering(action.payload.participants),
     remove: (state, action) => state.filter(id => id !== action.payload.id)
   }
 });
@@ -111,7 +117,8 @@ const currentSlice = createSlice({
   name: 'current',
   initialState: initialState.current,
   reducers: {
-    set: (state, action) => action.payload.id
+    set: (state, action) => action.payload.id,
+    refresh: () => ''
   }
 });
 

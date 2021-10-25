@@ -22,7 +22,7 @@ const CurrentParticipantHeader = props => {
 };
 
 CurrentParticipantHeader.propTypes = {
-  id: PropTypes.number
+  id: PropTypes.string
 };
 
 const mapStateToProps = () => ({

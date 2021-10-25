@@ -12,6 +12,7 @@ import Paper from '@mui/material/Paper';
 import CurrentParticipant from './CurrentParticipant';
 import CurrentParticipantHeader from './CurrentParticipantHeader';
 import Participant from './Participant';
+import PrimaryMenu from './PrimaryMenu';
 import RemainingParticipantHeader from './RemainingParticipantHeader';
 import Title from './Title';
 
@@ -49,6 +50,7 @@ const Main = props => {
     <StyledEngineProvider injectFirst>
       <Title />
       <div className={classes.participantsContainer}>
+        <PrimaryMenu />
         <Paper elevation={4}>
           <List component='nav'>
             <RemainingParticipantHeader />
@@ -69,7 +71,7 @@ const Main = props => {
 };
 
 Main.propTypes = {
-  ordering: PropTypes.arrayOf(PropTypes.number).isRequired
+  ordering: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 const mapStateToProps = () => ({

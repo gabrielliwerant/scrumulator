@@ -3,12 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createUseStyles } from 'react-jss';
 
-import {
-  participantsSlice,
-  orderingSlice,
-  currentSlice,
-  statusSlice
-} from '../redux/reducers';
+import { orderingSlice, currentSlice, statusSlice } from '../redux/reducers';
 import {
   getParticipants,
   getOrdering,
@@ -16,8 +11,8 @@ import {
 } from '../redux/selectors';
 
 import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
 import CircularProgress from '@mui/material/CircularProgress';
+import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 
@@ -32,7 +27,7 @@ const useStyles = createUseStyles({
 });
 
 const RemainingParticipantHeader = props => {
-  const { ordering, isScrumulating, remove, setCurrent, setOff, setOn } = props;
+  const { ordering, isScrumulating, select, setCurrent, setOff, setOn } = props;
   const classes = useStyles();
   const [plural, setPlural] = useState(ordering.length ? 's' : '');
 
@@ -44,7 +39,7 @@ const RemainingParticipantHeader = props => {
 
     window.setTimeout(() => {
       setCurrent(ordering[index]);
-      remove(ordering[index]);
+      select(ordering[index]);
       setOff();
 
       // KLUDGE: With two remaining, one will remain after reduce
@@ -79,9 +74,9 @@ const RemainingParticipantHeader = props => {
 
 RemainingParticipantHeader.propTypes = {
   participants: PropTypes.object.isRequired,
-  ordering: PropTypes.arrayOf(PropTypes.number).isRequired,
+  ordering: PropTypes.arrayOf(PropTypes.string).isRequired,
   isScrumulating: PropTypes.bool.isRequired,
-  remove: PropTypes.func.isRequired,
+  select: PropTypes.func.isRequired,
   setCurrent: PropTypes.func.isRequired,
   setOff: PropTypes.func.isRequired,
   setOn: PropTypes.func.isRequired
@@ -94,10 +89,7 @@ const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  remove: id => {
-    dispatch(participantsSlice.actions.remove({ id }));
-    dispatch(orderingSlice.actions.remove({ id }));
-  },
+  select: id => dispatch(orderingSlice.actions.remove({ id })),
   setCurrent: id => dispatch(currentSlice.actions.set({ id })),
   setOff: () => dispatch(statusSlice.actions.setOff()),
   setOn: () => dispatch(statusSlice.actions.setOn())
