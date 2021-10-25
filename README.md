@@ -8,6 +8,12 @@ Kick your scrums up a notch by using a simple app to create a list of your scrum
 1. `npm install`
 1. `npm start`
 
+## Production
+
+Deployment is manual.
+
+Run `npm run build` to build the bundle.
+
 ## About
 
 Built using the following technologies:
