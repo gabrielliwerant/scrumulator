@@ -14,7 +14,7 @@ import {
   getOrdering,
   getIsScrumulating
 } from '../redux/selectors';
-import { makeId } from '../utils';
+import { getRandomIndex, makeId } from '../utils';
 
 import Add from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
@@ -62,7 +62,7 @@ const PrimaryMenu = props => {
     if (!ordering.length) return false;
 
     setOn();
-    const index = Math.floor(Math.random() * ordering.length);
+    const index = getRandomIndex(ordering);
 
     window.setTimeout(() => {
       setCurrent(ordering[index]);
