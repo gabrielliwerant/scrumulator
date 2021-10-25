@@ -38,12 +38,12 @@ const Main = props => {
   const [ticker, setTicker] = useState(0);
 
   useEffect(() => {
-    // const intervalId = setInterval(() => {
-    //   if (ticker >= participants.length) setTicker(0);
-    //   else setTicker(ticker + 1);
-    // }, 50);
-    //
-    // return () => clearInterval(intervalId);
+    const intervalId = setInterval(() => {
+      if (ticker >= ordering.length) setTicker(0);
+      else setTicker(ticker + 1);
+    }, 50);
+
+    return () => clearInterval(intervalId);
   });
 
   return (
