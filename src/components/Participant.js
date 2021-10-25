@@ -33,6 +33,12 @@ const useStyles = createUseStyles({
       marginTop: '6px'
     }
   },
+  menu: {
+    display: 'flex',
+    listStyle: 'none',
+    padding: 0,
+    margin: 0
+  },
   editField: {
     '& input': {
       paddingBottom: '6.5px',
@@ -110,16 +116,22 @@ const Participant = props => {
             value={draft}
             onChange={onChangePartipant}
           />
-          <IconButton aria-label='save' size='small' onClick={onClickEditSave}>
-            <CheckCircle fontSize='small' />
-          </IconButton>
-          <IconButton
-            aria-label='cancel'
-            size='small'
-            onClick={onClickEditCancel}
-          >
-            <Cancel fontSize='small' />
-          </IconButton>
+          <ul role='menu' className={classes.menu}>
+            <li role='menuitem'>
+              <IconButton aria-label='save' size='small' onClick={onClickEditSave}>
+                <CheckCircle fontSize='small' />
+              </IconButton>
+            </li>
+            <li role='menuitem'>
+              <IconButton
+                aria-label='cancel'
+                size='small'
+                onClick={onClickEditCancel}
+              >
+                <Cancel fontSize='small' />
+              </IconButton>
+            </li>
+          </ul>
         </>
       )}
       {!isEditActive && (
