@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 const useStyles = createUseStyles({
   title: {
     textAlign: 'center',
-    marginBottom: '16px'
+    marginBottom: '32px'
   }
 });
 
