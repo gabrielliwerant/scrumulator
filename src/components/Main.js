@@ -32,6 +32,7 @@ const useStyles = createUseStyles({
   },
   participantsContainer: {
     width: '25%',
+    minWidth: '256px',
     margin: 'auto'
   },
   currentParticipantContainer: {
