@@ -23,7 +23,7 @@ const Footer = () => {
   const yearRange = currentYear !== 2021 ? `2021 - ${currentYear}` : '2021';
 
   return (
-    <AppBar position='fixed' color='default' sx={{ top: 'auto', bottom: 0 }}>
+    <AppBar position='static' color='default' sx={{ marginTop: '24px' }}>
       <Typography variant='body1' className={classes.text}>
         &copy; {yearRange} Gabriel Liwerant
       </Typography>
