@@ -36,3 +36,4 @@ const mapStateToProps = () => ({
 });
 
 export default connect(mapStateToProps)(CurrentParticipant);
+export { CurrentParticipant };

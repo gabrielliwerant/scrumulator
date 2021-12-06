@@ -18,7 +18,7 @@ const CAPTIONS = [
   '90% more scrum than the leading brand',
   'Happiness is a warm scrum',
   'I\'ll let you be in my scrum if I can be in yours',
-  '8 out of 10 scrum teams use it',
+  '8 out of 10 scrum teams prefer it',
   'Blame the algorithm'
 ];
 const caption = CAPTIONS[getRandomIndex(CAPTIONS)];

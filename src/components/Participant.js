@@ -45,6 +45,11 @@ const useStyles = createUseStyles({
       paddingTop: '6.5px'
     }
   },
+  label: {
+    visibility: 'hidden',
+    height: 0,
+    width: 0
+  },
   delete: {
     visibility: 'hidden'
   },
@@ -108,6 +113,7 @@ const Participant = props => {
     >
       {isEditActive && (
         <>
+          <label htmlFor={`${id}`} className={classes.label}>Edit</label>
           <TextField
             className={classes.editField}
             size='small'
@@ -138,7 +144,7 @@ const Participant = props => {
         <>
           <ListItemText primary={name} />
           <IconButton
-            aria-label='cancel'
+            aria-label='remove'
             size='small'
             onClick={onClickRemove}
             className={classes.delete}
@@ -186,3 +192,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Participant);
+export { Participant };

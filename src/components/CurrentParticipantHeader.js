@@ -39,3 +39,4 @@ const mapStateToProps = () => ({
 });
 
 export default connect(mapStateToProps)(CurrentParticipantHeader);
+export { CurrentParticipantHeader };

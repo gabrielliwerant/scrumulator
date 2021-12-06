@@ -57,7 +57,7 @@ const Main = props => {
   return (
     <StyledEngineProvider injectFirst>
       <Title />
-      <div className={classes.participantsContainer}>
+      <div data-testid='main' className={classes.participantsContainer}>
         <PrimaryMenu />
         <Paper elevation={4}>
           <List component='nav'>

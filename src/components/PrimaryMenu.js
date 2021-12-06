@@ -96,6 +96,7 @@ const PrimaryMenu = props => {
     >
       <li role='menuitem'>
         <Button
+          aria-label="start scrumulation"
           variant='contained'
           onClick={scrumuluate}
           disabled={!ordering.length}
@@ -171,3 +172,4 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrimaryMenu);
+export { PrimaryMenu };
