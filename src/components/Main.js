@@ -25,6 +25,10 @@ import Title from './Title';
 
 const useStyles = createUseStyles({
   '@global': {
+    html: {
+      minHeight: '100%',
+      position: 'relative'
+    },
     body: {
       margin: 0,
       fontFamily: '"Roboto", arial, sans-serif'
@@ -36,7 +40,7 @@ const useStyles = createUseStyles({
     margin: 'auto'
   },
   currentParticipantContainer: {
-    marginTop: '16px'
+    margin: '16px 0 98px 0'
   }
 });
 

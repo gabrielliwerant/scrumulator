@@ -7,13 +7,20 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 
-import AppBar from '@mui/material/AppBar';
 import Typography from '@mui/material/Typography';
 
 const useStyles = createUseStyles({
   text: {
     margin: 'auto',
     padding: '16px 0'
+  },
+  footer: {
+    width: '100%',
+    bottom: 0,
+    position: 'absolute',
+    padding: '10px 0',
+    background: '#e0e0e0',
+    textAlign: 'center'
   }
 });
 
@@ -23,11 +30,11 @@ const Footer = () => {
   const yearRange = currentYear !== 2021 ? `2021 - ${currentYear}` : '2021';
 
   return (
-    <AppBar position='static' color='default' sx={{ marginTop: '24px' }}>
+    <footer className={classes.footer}>
       <Typography variant='body1' className={classes.text}>
         &copy; {yearRange} Gabriel Liwerant
       </Typography>
-    </AppBar>
+    </footer>
   );
 };
 
