@@ -32,7 +32,7 @@ const Footer = () => {
   return (
     <footer className={classes.footer}>
       <Typography variant='body1' className={classes.text}>
-        &copy; {yearRange} Gabriel Liwerant
+        © {yearRange} Gabriel Liwerant
       </Typography>
     </footer>
   );
